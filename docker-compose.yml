@@ -1,0 +1,26 @@
+name: fiap-tech-challenge-2-customized
+
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://admin:password123@mongo:27017/tech-challenge?authSource=admin
+    depends_on:
+      - mongo
+    
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
