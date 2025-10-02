@@ -9,6 +9,9 @@ services:
     environment:
       - NODE_ENV=production
       - MONGO_URI=mongodb://admin:password123@mongo:27017/tech-challenge?authSource=admin
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongo
     
