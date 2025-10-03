@@ -99,10 +99,19 @@ class AccountController {
 
   async createTransaction(req, res) {
     const { saveTransaction, transactionRepository } = this.di;
-    const { accountId, value, type, from, to, anexo } = req.body;
+    const { accountId, value, type, from, to, anexo, date } = req.body;
 
     try {
       const transactionOperation = (async () => {
+        let transactionDate = new Date();
+
+        if (date) {
+          const customDate = new Date(date);
+          if (!isNaN(customDate.getTime())) {
+            transactionDate = customDate;
+          }
+        }
+
         const transactionDTO = new TransactionDTO({
           accountId,
           value,
@@ -110,7 +119,7 @@ class AccountController {
           to,
           anexo,
           type,
-          date: new Date(),
+          date: transactionDate,
         });
         return await saveTransaction({
           transaction: transactionDTO,
